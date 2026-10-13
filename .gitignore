@@ -1,0 +1,8 @@
+.DS_Store
+.impeccable/
+.playwright-mcp/
+.playwright-cli/
+*.log
+node_modules/
+.vercel/
+.env*

@@ -1,0 +1,10 @@
+.playwright-mcp
+.playwright-cli
+.impeccable
+.DS_Store
+*.log
+.env*
+.vercel
+README.md
+DESIGN.md
+PRODUCT.md
