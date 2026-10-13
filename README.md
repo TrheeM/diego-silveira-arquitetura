@@ -2,8 +2,7 @@
 
 Site-portfólio do arquiteto Diego Silveira (Sul de Minas / Serra da Mantiqueira). O topo segue a coreografia do Grupo Mais Saúde: os projetos passam pela moldura atrás do Diego, o cartão do projeto gira no eixo Y, o fundo troca de cor, a palavra gigante troca letra a letra e as peças 3D (pórticos de aço, ripado, tijolo, vidro, laje) implodem e se montam de novo. Dá para **arrastar o palco para o lado** ou usar as setas. Cada projeto abre uma galeria com as fotos.
 
-**No ar:** https://diegosilveira.mdrify.com/ (Vercel, projeto `site-diegosilveira`, time Medradas)  
-**Espelho:** https://trheem.github.io/diego-silveira-arquitetura/ (GitHub Pages)
+**No ar:** https://trheem.github.io/diego-silveira-arquitetura/ (GitHub Pages, branch `main`)
 
 ## Editar conteúdo
 
@@ -15,16 +14,13 @@ Tudo fica em [`assets/js/data.js`](assets/js/data.js):
 - `INSTAGRAM`: usuário do Instagram (os botões de contato abrem o Direct).
 - `WHATSAPP`: vazio por padrão. Com um número (`55` + DDD + número, só dígitos), todos os botões de contato passam a abrir o WhatsApp com mensagem pronta.
 
-Fotos novas: exporte em WebP para `assets/img/<nome>-800.webp` (e `-1600.webp` para fotos grandes, com `big: true`). Use **nome novo** ao trocar uma foto: a Vercel guarda imagens em cache por 1 ano.
+Fotos novas: exporte em WebP para `assets/img/<nome>-800.webp` (e `-1600.webp` para fotos grandes, com `big: true`). Ao trocar uma foto, prefira um nome novo para não pegar cache antigo.
 
 ## Publicar
 
 ```sh
-git push                                     # GitHub + GitHub Pages
-vercel deploy --prod --yes --scope medradas  # diegosilveira.mdrify.com
+git push   # o GitHub Pages publica a branch main em ~1 min
 ```
-
-A pasta é ligada ao projeto `site-diegosilveira` na Vercel (`.vercel/`, fora do git).
 
 ## Rodar localmente
 
@@ -46,13 +42,12 @@ Precisa de servidor (módulos ES não abrem via `file://`).
 | `assets/js/hero3d.js` | Peças 3D do topo (Three.js, carregado depois da página) |
 | `assets/fonts/` | Jost variável (SIL OFL 1.1, Fontsource `@fontsource-variable/jost` 5.3.0) |
 | `assets/vendor/` | GSAP 3.15.0 (+ScrollTrigger, SplitText) e Three.js r169, servidos pelo próprio site |
-| `vercel.json` | Cabeçalhos de segurança (HSTS, nosniff, frame-ancestors, Permissions-Policy) e cache |
 
 ## Segurança e desempenho
 
 - Content-Security-Policy sem scripts nem estilos inline; nenhuma requisição a terceiros.
 - Todo texto renderizado pelo JS sai de `data.js` e passa por escape; links externos com `rel="noopener noreferrer"`; mensagem do WhatsApp com `encodeURIComponent`; número validado (12 ou 13 dígitos).
-- Na Vercel: HSTS, `X-Content-Type-Options`, `X-Frame-Options: DENY`/`frame-ancestors 'none'`, `Permissions-Policy` restritiva.
+- GitHub Pages serve com HTTPS. Ele não aceita cabeçalhos próprios, então a proteção fica na CSP via `<meta>` (sem `frame-ancestors`, que só funciona por cabeçalho).
 - Sem formulários, sem backend, sem cookies, sem analytics.
 - A cena 3D só carrega depois da página pronta e pausa fora da tela; a troca automática pausa no mouse, no foco e fora da tela, e para quando a pessoa assume.
 - Respeita `prefers-reduced-motion` (sem cortina, sem troca automática, sem peças flutuando, cartões do processo sem empilhar).
